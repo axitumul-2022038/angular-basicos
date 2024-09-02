@@ -15,7 +15,8 @@ import { NgFor, NgIf } from '@angular/common';
 })
 export class MainPageComponent {
   personajes: Personaje[] = [
-    
+    { nombre: 'Goku', poder: 15000 },
+    { nombre: 'Vegeta', poder: 14500 }
   ];
 
   constructor(public dialog: MatDialog) {}

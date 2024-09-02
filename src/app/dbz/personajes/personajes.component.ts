@@ -1,7 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, inject, Inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialog} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { RouterOutlet } from '@angular/router';
 import { Personaje } from '../interfaces/dbz.interface';
 import { DialogAnimationsExampleDialog } from './eliminar-personaje.component';
@@ -11,6 +11,7 @@ import { DialogAnimationsExampleDialog } from './eliminar-personaje.component';
   standalone: true,
   imports: [RouterOutlet, NgFor, NgIf, MatButtonModule],
   templateUrl: 'personajes.component.html',
+  
   styles: ``
 })
 export class PersonajesComponent {
@@ -30,19 +31,16 @@ export class PersonajesComponent {
     this.editar.emit(index);
   }
 
-  constructor(public dialoge: MatDialog) {}
-
-  openDialog( index: number) {
+  openDialog( index: number): void {
     const personaje = this.personajes[index];
-    const dialogRe = this.dialoge.open(DialogAnimationsExampleDialog, {
+    this.dialog.open(DialogAnimationsExampleDialog, {
       width: '250px',
       data: { index, personaje, personajes: this.personajes }
-    })
-    
-    dialogRe.afterClosed().subscribe(result => {
+    }).afterClosed().subscribe((result: Personaje[]) => {
       if (result) {
         this.personajes = result;
       }
     });
   }
 }
+
