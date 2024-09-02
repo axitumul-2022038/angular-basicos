@@ -11,6 +11,7 @@ h1 {
   }
   body {
     margin: 0;
+    background-color: #ffffff;
   }
   body, input[type="text"], button {
     color: #333;
@@ -57,34 +58,83 @@ h1 {
     border-radius: 34px;
     background-color: transparent;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.23, 1, 0.320, 1);
+    transition: color 0.3s cubic-bezier(0.23, 1, 0.320, 1), 
+                box-shadow 0.3s cubic-bezier(0.23, 1, 0.320, 1);
     overflow: hidden;
-  }
-  
-  .button::before {
+    /* Ensure the button content remains on top of the pseudo-element */
+    z-index: 1;
+}
+
+.button::before {
     content: '';
     position: absolute;
     inset: 0;
-    margin: auto;
-    width: 50px;
-    height: 50px;
-    border-radius: inherit;
-    scale: 0;
-    z-index: -1;
     background-color: rgb(193, 163, 98);
-    transition: all 0.6s cubic-bezier(0.23, 1, 0.320, 1);
-  }
-  
-  .button:hover::before {
-    scale: 3;
-  }
-  
-  .button:hover {
+    border-radius: inherit;
+    transform: scale(0);
+    transform-origin: center;
+    transition: transform 0.6s cubic-bezier(0.23, 1, 0.320, 1);
+    z-index: -1; /* Ensure it appears behind the button text */
+}
+
+.button:hover::before {
+    transform: scale(1);
+}
+
+.button:hover {
     color: #212121;
-    scale: 1.1;
-    box-shadow: 0 0px 20px rgba(193, 163, 98,0.4);
-  }
-  
-  .button:active {
-    scale: 1;
-  }
+    box-shadow: 0 0px 20px rgba(193, 163, 98, 0.4);
+}
+
+
+  /* From Uiverse.io by alexruix */ 
+.group {
+  display: flex;
+  line-height: 28px;
+  align-items: center;
+  position: relative;
+  max-width: 190px;
+}
+
+.input {
+  height: 40px;
+  line-height: 28px;
+  padding: 0 1rem;
+  width: 100%;
+  padding-left: 2.5rem;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  background-color: #D9E8D8;
+  color: #0d0c22;
+  box-shadow: 0 0 5px #C1D9BF, 0 0 0 10px #000000eb;
+  transition: .3s ease;
+}
+
+.input::placeholder {
+  color: #777;
+}
+
+.row{
+  display: flex;
+}
+
+.col{
+  flex-grow: 1;
+  margin-right: 10px;
+}
+
+.inputdbz{
+  display: block;
+  margin: 5px;
+}
+
+
+
+
+
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

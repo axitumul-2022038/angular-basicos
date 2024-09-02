@@ -11,7 +11,6 @@ import { RouterOutlet } from "@angular/router";
 
 
 export class HeroeComponent{
-    title = 'contador';
     nombre: string = 'Ironman'
     edad: number = 45
 

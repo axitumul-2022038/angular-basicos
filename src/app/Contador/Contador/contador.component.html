@@ -1,5 +1,10 @@
 <h1>la base es de: {{base}}</h1>
-    <input type="number" [(ngModel)]="base" />
+<div class="group">
+  <svg class="icon" aria-hidden="true" viewBox="0 0 24 24">
+      
+  </svg>
+  <input type="number" [(ngModel)]="base" placeholder="Search" class="input">
+</div>
     <br>
 
   <button class="button" (click)="contador(base)">+{{base}}</button>

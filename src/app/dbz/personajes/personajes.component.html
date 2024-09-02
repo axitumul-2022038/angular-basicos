@@ -1,0 +1,17 @@
+
+<h3>Personajes</h3>
+        <hr>
+        <ul>
+            <li *ngFor="let heroe of personajes; let i = index">
+                {{i+1}}.{{heroe.nombre}} -- {{heroe.poder}} 
+                <!-- <button class="button" (click)="onEliminar(i)">
+                    Eliminar
+                </button> -->
+                <button class="button" (click)="onEditar(i)">
+                    Editar
+                </button>
+                <button class="button" (click)="openDialog(i)">
+                    Eliminar
+                </button>
+            </li>
+        </ul> 
