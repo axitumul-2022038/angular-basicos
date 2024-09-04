@@ -4,13 +4,28 @@
   <form>
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
-      <input matInput [(ngModel)]="personaje.nombre" name="nombre">
+      <input matInput type="text" placeholder="Nombre" [(ngModel)]="personaje.nombre" name="nombre">
     </mat-form-field>
 
     <mat-form-field appearance="fill">
       <mat-label>Poder</mat-label>
-      <input matInput type="number" [(ngModel)]="personaje.poder" name="poder">
+      <input matInput type="number" placeholder="Numero de Poder" [(ngModel)]="personaje.poder" name="poder">
     </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Poder</mat-label>
+      <input matInput type="text" placeholder="Cuales son sus poderes" [(ngModel)]="personaje.funcion" name="funcion">
+    </mat-form-field>
+
+    <mat-form-field appearance="fill">
+      <mat-label>Imagen</mat-label>
+      <input type="file" (change)="onFileChange($event)">
+    </mat-form-field>
+
+    <div *ngIf="imagenPreview">
+      <h3>Vista previa de la imagen:</h3>
+      <img [src]="imagenPreview" alt="Vista previa" style="max-width: 100%; height: auto;">
+    </div>
   </form>
 </mat-dialog-content>
 

@@ -5,11 +5,12 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogClose, MatDialog
 import { RouterOutlet } from '@angular/router';
 import { Personaje } from '../interfaces/dbz.interface';
 import { DialogAnimationsExampleDialog } from './eliminar-personaje.component';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-personajes',
   standalone: true,
-  imports: [RouterOutlet, NgFor, NgIf, MatButtonModule],
+  imports: [RouterOutlet, NgFor, NgIf, MatButtonModule, MatCardModule],
   templateUrl: 'personajes.component.html',
   
   styles: ``

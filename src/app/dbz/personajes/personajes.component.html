@@ -1,12 +1,12 @@
 
 <h3>Personajes</h3>
         <hr>
-        <ul>
+        <!-- <ul>
             <li *ngFor="let heroe of personajes; let i = index">
                 {{i+1}}.{{heroe.nombre}} -- {{heroe.poder}} 
-                <!-- <button class="button" (click)="onEliminar(i)">
+                 <button class="button" (click)="onEliminar(i)">
                     Eliminar
-                </button> -->
+                </button> 
                 <button class="button" (click)="onEditar(i)">
                     Editar
                 </button>
@@ -14,4 +14,29 @@
                     Eliminar
                 </button>
             </li>
-        </ul> 
+        </ul>  -->
+
+        <div *ngFor="let personaje of personajes; let i = index">
+            <mat-card class="example-card" appearance="outlined">
+              <mat-card-header>
+                <mat-card-title-group>
+                  <mat-card-title>{{ personaje.nombre }}</mat-card-title>
+                  <mat-card-subtitle>{{ personaje.poder }}</mat-card-subtitle>
+                  <img mat-card-xl-image *ngIf="personaje.imagenUrl" [src]="personaje.imagenUrl" alt="{{ personaje.nombre }}">
+                </mat-card-title-group>
+              </mat-card-header>
+              <mat-card-content>
+                {{personaje.funcion}}
+              </mat-card-content>
+              <br><br><br>
+              <mat-card-actions>
+                <button class="button" (click)="onEditar(i)">
+                    Editar
+                </button>
+                <button class="button" (click)="openDialog(i)">
+                    Eliminar
+                </button>
+              </mat-card-actions>
+            </mat-card>
+          </div>
+          

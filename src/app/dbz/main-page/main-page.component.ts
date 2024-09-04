@@ -6,17 +6,18 @@ import { PersonajesComponent } from '../personajes/personajes.component';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgFor, NgIf } from '@angular/common';
+import {MatCardModule} from '@angular/material/card';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  imports: [RouterOutlet, FormsModule, NgFor, NgIf, PersonajesComponent],
+  imports: [RouterOutlet, FormsModule, NgFor, NgIf, PersonajesComponent,MatCardModule],
   standalone: true
 })
 export class MainPageComponent {
   personajes: Personaje[] = [
-    { nombre: 'Goku', poder: 15000 },
-    { nombre: 'Vegeta', poder: 14500 }
+    { nombre: 'Goku', poder: 15000, imagenUrl: 'https://i.pinimg.com/736x/de/62/3a/de623addcf7834fe3e121b1d5e147e9b.jpg', funcion: 'Tiene el poder de hacer una Genkidama' },
+    { nombre: 'Vegeta', poder: 14500, imagenUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzOn9HNqEKkH33S40thz7meOr9yAiSnQQ9cQ&s', funcion: 'Tiene el poder de Búnker de Espíritu' }
   ];
 
   constructor(public dialog: MatDialog) {}
