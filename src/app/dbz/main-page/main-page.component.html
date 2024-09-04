@@ -6,10 +6,9 @@
     <app-personajes
   [personajes]="personajes"
   (eliminar)="eliminar($event)"
-  (editar)="openDialog(true, $event)">
+  (editar)="openDialog(true, $event)"
+  (agregar)="openDialog(false)">
 </app-personajes>
   </div>
-  <div class="col">
-    <button class="button" mat-button (click)="openDialog(false)">Agregar Personaje</button>
-  </div>
 </div>
+
