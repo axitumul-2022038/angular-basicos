@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>{{ data.isEditMode ? 'Update' : 'Add' }} Personaje</h1>
 
-<mat-form-field>
-  <form>
+<mat-dialog-content>
+  
     <mat-form-field appearance="fill">
       <mat-label>Nombre</mat-label>
       <input matInput type="text" placeholder="Nombre" [(ngModel)]="personaje.nombre" name="nombre">
@@ -16,20 +16,28 @@
       <mat-label>Función</mat-label>
       <input matInput type="text" placeholder="¿Cuál es su función?" [(ngModel)]="personaje.funcion" name="funcion">
     </mat-form-field>
+    
+    <mat-dialog-content>
+      Selecciona la imagen
+      <input (change)="onFileChange($event)" accept=".jpg, .png, .jpeg" #fileInput type="file">
+    </mat-dialog-content>
 
-    <mat-form-field appearance="fill">
-      <mat-label>Imagen</mat-label>
-      <input type="file" (change)="onFileChange($event)">
-    </mat-form-field>
+    <mat-card *ngIf="imagenPreview" class="preview-card">
+      <mat-card-header>
+        <mat-card-title>Vista previa de la imagen:</mat-card-title>
+      </mat-card-header>
+      <img [src]="imagenPreview" alt="Vista previa" class="preview-image">
+    </mat-card>
+  
+</mat-dialog-content>
 
-    <div *ngIf="imagenPreview">
-      <h3>Vista previa de la imagen:</h3>
-      <img [src]="imagenPreview" alt="Vista previa" style="max-width: 100%; height: auto;">
-    </div>
-  </form>
-</mat-form-field>
-
-<mat-form-field>
-  <button mat-button class="button" (click)="onNoClick()">Cancel<mat-icon>cancel</mat-icon></button>
-  <button mat-button class="button" (click)="onSubmit()">Submit<mat-icon>check_circle</mat-icon></button>
-</mat-form-field>
+<mat-dialog-actions>
+  <button mat-stroked-button color="warn" (click)="onNoClick()">
+    Cancelar
+    <mat-icon>cancel</mat-icon>
+  </button>
+  <button mat-raised-button color="primary" (click)="onSubmit()">
+    Enviar
+    <mat-icon>check_circle</mat-icon>
+  </button>
+</mat-dialog-actions>

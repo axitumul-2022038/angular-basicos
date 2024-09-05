@@ -22,7 +22,7 @@ export class MainPageComponent {
   openEditDialog(isEditMode: boolean, id?: number) {
     const personaje = this.personajes.find(p => p.id === id);
     const dialogRef = this.dialog.open(VerEdicionComponent, {
-      width: '400px',
+      width: '600px',
       data: { isEditMode, id: personaje?.id, personajes: this.personajes }
     });
 

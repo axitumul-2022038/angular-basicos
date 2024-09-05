@@ -7,13 +7,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Personaje } from '../interfaces/dbz.interface';
+import { MatCardModule } from '@angular/material/card'; 
 
 @Component({
   selector: 'app-ver-edicion',
   templateUrl: './ver-edicion.component.html',
   styleUrls: ['./ver-edicion.component.css'],
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, NgIf, MatDialogModule, MatIconModule],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, NgIf, MatDialogModule, MatIconModule, MatCardModule],
 })
 export class VerEdicionComponent {
   personaje: Personaje = { id: 0, nombre: '', poder: 0, imagenUrl: '', funcion: '' };
