@@ -18,8 +18,6 @@ import { Personaje } from '../interfaces/dbz.interface';
 export class VerEdicionComponent {
   personaje: Personaje = { id: 0, nombre: '', poder: 0, imagenUrl: '', funcion: '' };
   imagenPreview: string | ArrayBuffer | null = null;
-  
-  // Imagen por defecto
   defaultImageUrl = 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg';
 
   constructor(
@@ -27,8 +25,7 @@ export class VerEdicionComponent {
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     if (data.isEditMode && data.id !== undefined) {
-      this.personaje = { ...data.personajes[data.id -1] };
-      console.log(this.personaje)
+      this.personaje = { ...data.personajes[data.id - 1] };
       this.imagenPreview = this.personaje.imagenUrl || this.defaultImageUrl;
     }
   }
@@ -64,7 +61,6 @@ export class VerEdicionComponent {
   private updatePersonaje(): void {
     const result = [...this.data.personajes];
     const index = result.findIndex(p => p.id === this.personaje.id);
-    console.log(index)
     if (index !== -1) {
       result[index] = this.personaje;
     }

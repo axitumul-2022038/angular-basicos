@@ -25,7 +25,6 @@ export class DialogAnimationsExampleDialog {
     if (this.data.id !== undefined && this.data.personajes) {
       const result = this.data.personajes.filter(p => p.id !== this.data.id);
       this.dialogRef.close(result);
-      alert(this.data.personaje.nombre);
     } else {
       console.error('ID is undefined or personajes is undefined');
     }
