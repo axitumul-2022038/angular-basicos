@@ -4,11 +4,10 @@
 <div class="row">
   <div class="col">
     <app-personajes
-  [personajes]="personajes"
-  (eliminar)="eliminar($event)"
-  (editar)="openDialog(true, $event)"
-  (agregar)="openDialog(false)">
-</app-personajes>
+      [personajes]="personajes"
+      (eliminar)="openDeleteDialog($event)"
+      (editar)="openEditDialog(true, $event)"
+      (agregar)="openEditDialog(false)">
+    </app-personajes>
   </div>
 </div>
-
