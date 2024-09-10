@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, inject, Inject } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
+// eliminar-personaje.component.ts
+import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogActions, MatDialogClose, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { PersonService } from '../../service/PersonService.component';
 import { Personaje } from '../interfaces/dbz.interface';
+import { MatButtonModule } from '@angular/material/button';
 import { NgIf } from '@angular/common';
 
 @Component({
@@ -12,21 +14,15 @@ import { NgIf } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAnimationsExampleDialog {
-  readonly dialogRef = inject(MatDialogRef<DialogAnimationsExampleDialog>);
-  @Inject(MAT_DIALOG_DATA) public data: { id: number; personaje: Personaje; personajes: Personaje[] };
-
   constructor(
-    @Inject(MAT_DIALOG_DATA) private datas: { id: number; personaje: Personaje; personajes: Personaje[] }
-  ) {
-    this.data = datas;
-  }
+    private personajeService: PersonService,
+    public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: { id: number; personaje: Personaje }
+  ) {}
 
   Eliminacion(): void {
-    if (this.data.id !== undefined && this.data.personajes) {
-      const result = this.data.personajes.filter(p => p.id !== this.data.id);
-      this.dialogRef.close(result);
-    } else {
-      console.error('ID is undefined or personajes is undefined');
-    }
+    this.personajeService.deletePerson(this.data.id).subscribe(() => {
+      this.dialogRef.close(); // Cerrar el diálogo
+    });
   }
 }

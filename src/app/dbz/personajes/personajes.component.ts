@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, Input, Output, EventEmitter, ViewChild, inject } from '@angular/core';
+// personajes.component.ts
+import { AfterViewInit, Component, EventEmitter, inject, Input, Output, ViewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
@@ -14,17 +15,17 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-personajes',
+  templateUrl: './personajes.component.html',
   standalone: true,
   imports: [NgFor, NgIf, MatButtonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatTooltipModule],
-  templateUrl: 'personajes.component.html'
 })
 export class PersonajesComponent implements AfterViewInit {
   @Input() personajes: Personaje[] = [];
   @Output() eliminar = new EventEmitter<number>();
   @Output() editar = new EventEmitter<number>();
-  @Output() agregar = new EventEmitter<boolean>();
+  @Output() agregar = new EventEmitter<void>();
 
-  readonly dialog = inject(MatDialog);
+  readonly dialog = inject(MatDialog)
 
   displayedColumns: string[] = ['id', 'foto', 'nombre', 'funcion', 'poder', 'acciones'];
   dataSource = new MatTableDataSource<Personaje>(this.personajes);
@@ -46,11 +47,10 @@ export class PersonajesComponent implements AfterViewInit {
     if (personaje) {
       this.dialog.open(DialogAnimationsExampleDialog, {
         width: '250px',
-        data: { id, personaje, personajes: this.personajes }
+        data: { id, personaje }
       }).afterClosed().subscribe((result: Personaje[]) => {
         if (result) {
-          this.personajes = result;
-          this.dataSource.data = this.personajes;
+          this.dataSource.data = result;
         }
       });
     }

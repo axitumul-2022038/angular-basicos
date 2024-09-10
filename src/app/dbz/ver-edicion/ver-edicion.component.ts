@@ -1,3 +1,4 @@
+// ver-edicion.component.ts
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormsModule } from '@angular/forms';
@@ -7,7 +8,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgIf } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { Personaje } from '../interfaces/dbz.interface';
-import { MatCardModule } from '@angular/material/card'; 
+import { MatCardModule } from '@angular/material/card';
+import { PersonService } from '../../service/PersonService.component';
 
 @Component({
   selector: 'app-ver-edicion',
@@ -22,11 +24,12 @@ export class VerEdicionComponent {
   defaultImageUrl = 'https://www.4x4.ec/overlandecuador/wp-content/uploads/2017/06/default-user-icon-8.jpg';
 
   constructor(
+    private personajeService: PersonService,
     public dialogRef: MatDialogRef<VerEdicionComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (data.isEditMode && data.id !== undefined) {
-      this.personaje = { ...data.personajes[data.id - 1] };
+    if (data.isEditMode && data.personaje) {
+      this.personaje = { ...data.personaje };
       this.imagenPreview = this.personaje.imagenUrl || this.defaultImageUrl;
     }
   }
@@ -52,20 +55,15 @@ export class VerEdicionComponent {
   }
 
   private addPersonaje(): void {
-    const result = [...this.data.personajes];
-    const maxId = result.length > 0 ? result[result.length - 1].id : 0;
-    this.personaje.id = maxId + 1;
-    result.push(this.personaje);
-    this.dialogRef.close(result);
+    this.personajeService.addPerson(this.personaje).subscribe(newPersonaje => {
+      this.dialogRef.close(); // Cerrar el diálogo
+    });
   }
 
   private updatePersonaje(): void {
-    const result = [...this.data.personajes];
-    const index = result.findIndex(p => p.id === this.personaje.id);
-    if (index !== -1) {
-      result[index] = this.personaje;
-    }
-    this.dialogRef.close(result);
+    this.personajeService.updatePerson(this.personaje.id, this.personaje).subscribe(updatedPersonaje => {
+      this.dialogRef.close(); // Cerrar el diálogo
+    });
   }
 
   onFileChange(event: Event): void {
