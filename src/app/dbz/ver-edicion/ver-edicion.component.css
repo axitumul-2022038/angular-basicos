@@ -71,4 +71,15 @@ img {
   padding: 5px;
 }
 
-  
+
+.current-image-card,
+.preview-card {
+  margin-top: 20px;
+}
+
+.current-image,
+.preview-image {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+}
