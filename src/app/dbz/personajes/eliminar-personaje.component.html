@@ -1,7 +1,7 @@
 <h1 mat-dialog-title>Delete Character</h1>
 <mat-dialog-content>
   <p>¿Estás seguro de que quieres eliminar a {{data.personaje.nombre}}?</p>
-  <img *ngIf="data.personaje.imagenUrl" [src]="data.personaje.imagenUrl" alt="{{data.personaje.nombre}}" style="width: 100px; height: auto; object-fit: cover;">
+  <img [src]="getImageUrla(data.personaje.id)" alt="Imagen Actual" class="current-image">
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="dialogRef.close()">Cancelar</button>

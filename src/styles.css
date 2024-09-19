@@ -136,7 +136,12 @@ h1 {
   margin-bottom: 8px;
 }
 
-
+.current-image,
+.preview-image {
+  width: 100px;
+  height: auto;
+  object-fit: cover;
+}
 
 
 html, body { height: 100%; }

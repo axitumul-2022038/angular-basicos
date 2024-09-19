@@ -21,23 +21,29 @@ export class PersonService {
   addPerson(person: any, file?: File): Observable<any> {
     const formData = new FormData();
     formData.append('nombre', person.nombre);
-    formData.append('poder', person.poder.toString());
-    formData.append('funcion', person.funcion);
+    formData.append('usuario', person.usuario);
+    formData.append('contrasenia', person.contrasenia);
     if (file) {
       formData.append('imagen', file, file.name);
     }
     return this.http.post<any>(this.apiUrl, formData);
   }
 
-  updatePerson(id: number, person: any, file?: File): Observable<any> {
+  updatePerson(id: number, person: any): Observable<any> {
     const formData = new FormData();
     formData.append('nombre', person.nombre);
-    formData.append('poder', person.poder.toString());
-    formData.append('funcion', person.funcion);
+    formData.append('usuario', person.usuario);
+    formData.append('contrasenia', person.contrasenia);
+    formData.append('administrador', person.administrador);
+    return this.http.put<any>(`${this.apiUrl}/${id}`, formData);
+  }
+
+  updateImgPerson(id: number, file?: File): Observable<any> {
+    const formData = new FormData();
     if (file) {
       formData.append('imagen', file, file.name);
     }
-    return this.http.put<any>(`${this.apiUrl}/${id}`, formData);
+    return this.http.put<any>(`${this.apiUrl}/image/${id}`, formData);
   }
 
   deletePerson(id: number): Observable<void> {

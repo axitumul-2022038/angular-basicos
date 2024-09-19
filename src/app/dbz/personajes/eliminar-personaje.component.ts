@@ -14,11 +14,16 @@ import { NgIf } from '@angular/common';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogAnimationsExampleDialog {
+  personaje: Personaje = { id: 0, nombre: '', usuario: '', imagenUrl: '', contrasenia: '', administrador: false || true };
   constructor(
     private personajeService: PersonService,
     public dialogRef: MatDialogRef<DialogAnimationsExampleDialog>,
     @Inject(MAT_DIALOG_DATA) public data: { id: number; personaje: Personaje }
   ) {}
+
+  getImageUrla(id: number): string {
+    return `http://localhost:3000/api/persons/image/${id}`;
+  }
 
   Eliminacion(): void {
     this.personajeService.deletePerson(this.data.id).subscribe(() => {
