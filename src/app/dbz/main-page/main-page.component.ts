@@ -6,6 +6,7 @@ import { DialogAnimationsExampleDialog } from '../personajes/eliminar-personaje.
 import { Personaje } from '../interfaces/dbz.interface';
 import { PersonajesComponent } from '../personajes/personajes.component';
 import { PersonService } from '../../service/PersonService.component';
+import { VerEdicionImgComponent } from '../ver-edicion/editar-img.component';
 
 @Component({
   selector: 'app-main-page',
@@ -36,6 +37,20 @@ export class MainPageComponent implements OnInit {
     const dialogRef = this.dialog.open(VerEdicionComponent, {
       width: '600px',
       data: { isEditMode, personaje }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.loadPersonajes(); // Recargar personajes después de agregar o editar
+      }
+    });
+  }
+
+  openEditImgDialog(isEditaMode: boolean, id?: number) {
+    const personaje = isEditaMode ? this.personajes.find(p => p.id === id) : null;
+    const dialogRef = this.dialog.open(VerEdicionImgComponent, {
+      width: '600px',
+      data: { isEditaMode, personaje }
     });
 
     dialogRef.afterClosed().subscribe(result => {

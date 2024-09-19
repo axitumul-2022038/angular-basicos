@@ -2,7 +2,8 @@
 export interface Personaje{
     id: number;
     nombre: string;
-    poder: number;
+    usuario: string;
     imagenUrl?: string;
-    funcion: string;
+    contrasenia: string;
+    administrador: boolean;
 }

@@ -45,7 +45,7 @@
 
 <mat-form-field>
   <mat-label>Filter</mat-label>
-  <input matInput (keyup)="applyFilter($event)" placeholder="Filter by name">
+  <input matInput (keyup)="applyFilter($event)" placeholder="Filter by id, nombre, usuario, contraseña">
 </mat-form-field>
 
 <button (click)="onAgregar()" class="button" matTooltip="Agrega un nuevo personaje">
@@ -80,27 +80,44 @@
     </ng-container>
 
     <!-- Funcion Column -->
-    <ng-container matColumnDef="funcion">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Función </th>
-      <td mat-cell *matCellDef="let row"> {{row.funcion}} </td>
+    <ng-container matColumnDef="usuario">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+      <td mat-cell *matCellDef="let row"> {{row.usuario}} </td>
     </ng-container>
 
     <!-- Poder Column -->
-    <ng-container matColumnDef="poder">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Poder </th>
-      <td mat-cell *matCellDef="let row"> {{row.poder}} </td>
+    <ng-container matColumnDef="contrasenia">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contraseña </th>
+      <td mat-cell *matCellDef="let row"> {{row.contrasenia}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rol">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Administrador </th>
+      <td mat-cell *matCellDef="let row"> 
+        {{ row.administrador === 1 ? 'Administrador' : 'No Administrador' }} 
+      </td>
     </ng-container>
 
     <!-- Acciones Column -->
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let row">
+        <br>
         <button (click)="onEditar(row.id)" class="button" matTooltip="Actualizar a este personaje">
           <mat-icon>update</mat-icon>
         </button>
+        <br>
+        <br>
         <button (click)="openDialog(row.id)" class="button" matTooltip="Eliminar a este personaje">
           <mat-icon>delete</mat-icon>
         </button>
+        <br>
+        <br>
+        <button (click)="onEditarImg(row.id)" class="button" matTooltip="Actualizar la imagen de este personaje">
+          <mat-icon>image</mat-icon>
+        </button>
+        <br>
+        <br>
       </td>
     </ng-container>
 
@@ -113,5 +130,5 @@
     </tr>
   </table>
 
-  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of characters"></mat-paginator>
+  <mat-paginator [pageSizeOptions]="[3, 5, 10, 25]" aria-label="Select page of characters"></mat-paginator>
 </div>

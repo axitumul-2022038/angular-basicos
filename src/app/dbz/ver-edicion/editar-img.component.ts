@@ -13,13 +13,13 @@ import { MatOption } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
 
 @Component({
-  selector: 'app-ver-edicion',
-  templateUrl: './ver-edicion.component.html',
+  selector: 'app-ver-edicion-img',
+  templateUrl: './editar-img.component.html',
   styleUrls: ['./ver-edicion.component.css'],
   standalone: true,
   imports: [MatFormFieldModule, MatInputModule, FormsModule, NgIf, MatDialogModule, MatIconModule, MatCardModule, MatOption, MatSelectModule],
 })
-export class VerEdicionComponent {
+export class VerEdicionImgComponent {
   personaje: Personaje = { id: 0, nombre: '', usuario: '', imagenUrl: '', contrasenia: '', administrador: false || true };
   imagenPreview: string | ArrayBuffer | null | undefined = null;
   isNewImage = false;
@@ -27,10 +27,10 @@ export class VerEdicionComponent {
 
   constructor(
     private personajeService: PersonService,
-    public dialogRef: MatDialogRef<VerEdicionComponent>,
+    public dialogRef: MatDialogRef<VerEdicionImgComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    if (data.isEditMode && data.personaje) {
+    if (data.isEditaMode && data.personaje) {
       this.personaje = { ...data.personaje };
       // Si no hay imagen, usar una imagen por defecto
       if(!this.imagenPreview){
@@ -46,31 +46,20 @@ export class VerEdicionComponent {
   }
 
   onSubmit(): void {
-    if (this.isFormValid()) {
+    
       const fileInput = document.querySelector('input[type="file"]') as HTMLInputElement;
       const file = fileInput?.files ? fileInput.files[0] : undefined;
 
-      if (this.data.isEditMode) {
+      if (this.data.isEditaMode == true) {
         
-        this.updatePersonaje();
-        location.reload()
-      } else {
-        this.addPersonaje(file);
+        this.updateImgPersonaje(file);
         location.reload()
       }
-    } else {
-      alert('Por favor, completa todos los campos.');
-    }
+
   }
 
-  private addPersonaje(file?: File): void {
-    this.personajeService.addPerson(this.personaje, file).subscribe(newPersonaje => {
-      this.dialogRef.close(); // Cerrar el diálogo
-    });
-  }
-
-  private updatePersonaje(): void {
-    this.personajeService.updatePerson(this.personaje.id, this.personaje).subscribe(updatedPersonaje => {
+  private updateImgPersonaje(file?: File): void {
+    this.personajeService.updateImgPerson(this.personaje.id,  file).subscribe(updatedPersonaje => {
       this.dialogRef.close(); // Cerrar el diálogo
     });
   }
@@ -92,9 +81,4 @@ export class VerEdicionComponent {
     return `http://localhost:3000/api/persons/image/${id}`;
   }
 
-  private isFormValid(): boolean {
-    return this.personaje.nombre.trim() !== '' &&
-           this.personaje.usuario.trim() !== '' &&
-           this.personaje.contrasenia.trim() !== '';
-  }
 }
