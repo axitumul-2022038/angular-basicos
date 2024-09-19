@@ -83,22 +83,9 @@
     <ng-container matColumnDef="usuario">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
       <td mat-cell *matCellDef="let row"> {{row.usuario}} </td>
-    <ng-container matColumnDef="usuario">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
-      <td mat-cell *matCellDef="let row"> {{row.usuario}} </td>
     </ng-container>
 
     <!-- Poder Column -->
-    <ng-container matColumnDef="contrasenia">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contraseña </th>
-      <td mat-cell *matCellDef="let row"> {{row.contrasenia}} </td>
-    </ng-container>
-
-    <ng-container matColumnDef="rol">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Administrador </th>
-      <td mat-cell *matCellDef="let row"> 
-        {{ row.administrador === 1 ? 'Administrador' : 'No Administrador' }} 
-      </td>
     <ng-container matColumnDef="contrasenia">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Contraseña </th>
       <td mat-cell *matCellDef="let row"> {{row.contrasenia}} </td>
