@@ -83,3 +83,7 @@ img {
   height: auto;
   object-fit: cover;
 }
+
+.mat-form-field {
+  width: 100%;
+}

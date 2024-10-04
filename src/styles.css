@@ -34,17 +34,46 @@ h1 {
     float: left;
     color: white;
   }
-  
   .li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 20px;
+    text-decoration: none;
+  }
+  .lo {
+    float: right;
+    color: white;
+  }
+  .lo a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 20px 20px;
+    text-decoration: none;
+  }
+  
+  .lo a:hover {
+    background-color: #111;
+  }
+  
+  /* Change the link color to #111 (black) on hover */
+  .li a:hover {
+    background-color: #111;
+  }
+
+  .li .buttonNav {
     display: block;
     color: white;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+    background-color: #333;
+    font-family: Arial, Helvetica, sans-serif;
   }
   
   /* Change the link color to #111 (black) on hover */
-  .li a:hover {
+  .li .buttonNav:hover {
     background-color: #111;
   }
 

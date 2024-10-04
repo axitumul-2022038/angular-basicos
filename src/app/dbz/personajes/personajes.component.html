@@ -1,4 +1,4 @@
-<h3>Personajes</h3>
+<h3>Usuarios</h3>
 <hr>
 
 
@@ -48,10 +48,10 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Filter by id, nombre, usuario, contraseña">
 </mat-form-field>
 
-<button (click)="onAgregar()" class="button" matTooltip="Agrega un nuevo personaje">
+<button *ngIf="isAdmin()" (click)="onAgregar()" class="button" matTooltip="Agrega un nuevo personaje">
   <mat-icon>person_add</mat-icon> Add Character
 </button>
-
+<button  *ngIf="isAdmin()" (click)="exportToExcel()" class="button" matTooltip="Reporte de Usuarios en Excel"><mat-icon>assignment_ind</mat-icon>Report Ex</button>
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource" matSort>
 
@@ -79,17 +79,17 @@
       <td mat-cell *matCellDef="let row"> {{row.nombre}} </td>
     </ng-container>
 
-    <!-- Funcion Column -->
+    <!-- Usuario Column -->
     <ng-container matColumnDef="usuario">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
       <td mat-cell *matCellDef="let row"> {{row.usuario}} </td>
     </ng-container>
 
-    <!-- Poder Column -->
-    <ng-container matColumnDef="contrasenia">
+    <!-- Contraseña Column -->
+    <!-- <ng-container matColumnDef="contrasenia">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Contraseña </th>
       <td mat-cell *matCellDef="let row"> {{row.contrasenia}} </td>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container matColumnDef="rol">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Administrador </th>
@@ -102,22 +102,28 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let row">
-        <br>
-        <button (click)="onEditar(row.id)" class="button" matTooltip="Actualizar a este personaje">
-          <mat-icon>update</mat-icon>
-        </button>
-        <br>
-        <br>
-        <button (click)="openDialog(row.id)" class="button" matTooltip="Eliminar a este personaje">
-          <mat-icon>delete</mat-icon>
-        </button>
-        <br>
-        <br>
-        <button (click)="onEditarImg(row.id)" class="button" matTooltip="Actualizar la imagen de este personaje">
-          <mat-icon>image</mat-icon>
-        </button>
-        <br>
-        <br>
+        <div *ngIf="isAdmin(); else noPermission">
+          <button (click)="onEditar(row.id)" class="button" matTooltip="Actualizar a este usuario">
+            <mat-icon>update</mat-icon>
+          </button>
+          <button (click)="onEditarPass(row.id)" class="button" matTooltip="Actualizar la contraseña de este usuario">
+            <mat-icon>lock</mat-icon>
+          </button>
+          <br>
+          <button (click)="openDialog(row.id)" class="button" matTooltip="Eliminar a este usuario">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button (click)="generatePdf(row.id)" class="button" matTooltip="Generar PDF de este usuario">
+            <mat-icon>assignment_ind</mat-icon>
+          </button>
+          <br>
+          <button (click)="onEditarImg(row.id)" class="button" matTooltip="Actualizar la imagen de este usuario">
+            <mat-icon>image</mat-icon>
+          </button>
+        </div>
+        <ng-template #noPermission>
+          <span>No tienes permiso para realizar acciones.</span>
+        </ng-template>
       </td>
     </ng-container>
 

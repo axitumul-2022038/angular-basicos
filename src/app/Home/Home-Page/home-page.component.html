@@ -7,7 +7,7 @@
 
   <div class="actions">
       <a href="/dbz">Ver Usuarios</a>
-      <a href="#">Configuración</a>
+      <a *ngIf="isLoggedIn()" href="#">Configuración</a>
   </div>
 </div>
 

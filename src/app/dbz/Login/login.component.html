@@ -1,0 +1,20 @@
+<!-- login.component.html -->
+ 
+ <mat-dialog-content>
+  <h1>INICIA SESIÓN ANTES DE ENTRAR A LA WEB:</h1>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Usuario</mat-label>
+    <input matInput formControlName="usuario" required>
+  </mat-form-field>
+  
+  <mat-form-field appearance="fill">
+    <mat-label>Contraseña</mat-label>
+    <input matInput type="password" formControlName="contrasenia" required>
+  </mat-form-field>
+</form>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button color="primary" (click)="CerrarLogin()">Cancelar</button>
+    <button mat-button color="primary" type="submit" (click)="onSubmit()">Iniciar Sesión</button>
+  </mat-dialog-actions>
