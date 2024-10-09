@@ -1,0 +1,28 @@
+
+  <body class="body">
+    <div class="profile-card" *ngIf="personaje">
+    <div class="profile-header">
+      <img class="profile-img" *ngIf="imagenUrl" [src]="imagenUrl" alt="Imagen de {{ personaje.nombre }}" />
+      <img class="profile-img" *ngIf="!imagenUrl" [src]="defaultImageUrl" alt="Imagen de {{ personaje.nombre }}" />
+      <h2>{{ personaje.nombre }}</h2>
+      <p class="username">{{ personaje.usuario }}</p>
+    </div>
+    <div class="profile-details">
+      <p><strong>ID:</strong> {{ personaje.id }}</p>
+      <p><strong>Administrador:</strong> {{ personaje.administrador ? 'Sí' : 'No' }}</p>
+    </div>
+    <button (click)="openEditPasswordDialog(true, personaje.id)" class="button" matTooltip="Actualizar la contraseña de este usuario">
+        <mat-icon>lock</mat-icon>
+    </button>
+    <button (click)="openEditImgDialog(true, personaje.id)" class="button" matTooltip="Actualizar la imagen de este usuario">
+      <mat-icon>image</mat-icon>
+    </button>
+    <button (click)="openEditDialog(true, personaje.id)" class="button" matTooltip="Actualizar a este usuario">
+        <mat-icon>update</mat-icon>
+      </button>
+  </div>
+  <div *ngIf="!personaje">
+    <p>Cargando datos del perfil...</p>
+  </div>
+  </body>
+  

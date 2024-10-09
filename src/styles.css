@@ -41,17 +41,18 @@ h1 {
     padding: 20px 20px;
     text-decoration: none;
   }
-  .lo {
+ .lo a {
     float: right;
     color: white;
-  }
-  .lo a {
-    display: block;
-    color: white;
     text-align: center;
-    padding: 20px 20px;
+    padding: 15px 10px; /* Ajusta el padding según el tamaño que desees */
     text-decoration: none;
-  }
+    font-size: inherit; /* Asegúrate de que el tamaño de la fuente sea el mismo que el del 'li' */
+}
+
+.lo a:hover {
+    background-color: #111;
+}
   
   .lo a:hover {
     background-color: #111;

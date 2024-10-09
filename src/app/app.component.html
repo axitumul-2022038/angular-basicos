@@ -2,15 +2,21 @@
     <li class="li"><a href="/">Home</a></li>
     <li class="li"><a href="/dbz">Ver Personajes</a></li>
     <li class="li"><a href="#">Contact</a></li>
+    <li class="lo" *ngIf="isLoggedIn()"> 
+        <a [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>Menu</a>
+    </li>
     <li class="lo" *ngIf="isLogoutIn()" >
         
         <a (click)="openLogin()"><mat-icon>person</mat-icon>Login</a>
     </li>
     <li class="li"><a href="#">About</a></li>
-    <li class="lo" *ngIf="isLoggedIn()">
-        <a (click)="logout()" >Cerrar Sesion</a>
-    </li>
   </ul>
+
+
+  <mat-menu #menu="matMenu">
+    <button class="button"  (click)="logout()" mat-menu-item>Logout</button>
+    <button class="button"  (click)="verpefil()" mat-menu-item>Ver Tu Perfil</button>
+  </mat-menu>
   
   <router-outlet></router-outlet>
   

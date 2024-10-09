@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, of, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
+import { map } from 'rxjs/operators';
+import { Personaje } from '../dbz/interfaces/dbz.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -15,8 +17,12 @@ export class PersonService {
     return this.http.get<any>(this.apiUrl);
   }
 
-  getPerson(id: number): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}/${id}`);
+  getPerson(id: number): Observable<Personaje> {
+    return this.http.get<Personaje>(`${this.apiUrl}/${id}`);
+  }
+
+  getPersonImage(id: number): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/image/${id}`, { responseType: 'blob' });
   }
 
   addPerson(person: any, file?: File): Observable<any> {
@@ -77,6 +83,32 @@ exportToExcel(data: any[]): void {
 
   // Generar el archivo Excel
   XLSX.writeFile(workbook, 'personas.xlsx');
-}  
+}
+
+getImage64(id: number): Observable<any> {
+  return this.http.get<any>(`${this.apiUrl}/image64/${id}`).pipe(
+    tap((response) => console.log('Respuesta del servidor para la imagen:', response)),
+    catchError((error) => {
+      console.error('Error al obtener la imagen:', error);
+      return of({ imagenUrl: null });  // Devuelve una imagen nula si falla
+    })
+  );
+}
+
+getAllImagesInBase64(): Observable<any[]> {
+  return this.http.get<{ imagenes: any[] }>(`${this.apiUrl}/image64`).pipe(
+    map(response => response.imagenes || []),  // Asegura que devuelve un array
+    tap((response) => {
+      console.log('Respuesta del servidor para todas las imágenes:', response);
+    }),
+    catchError((error) => {
+      console.error('Error al obtener las imágenes:', error);
+      return of([]);  // Devuelve un array vacío si hay un error
+    })
+  );
+}
+
+
+
 
 }

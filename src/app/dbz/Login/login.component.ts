@@ -18,11 +18,11 @@ import { MatDialogActions, MatDialogContent, MatDialogRef } from '@angular/mater
   selector: 'app-login',
   templateUrl: 'login.component.html',
   standalone: true,
-  imports: [MatDialogActions,MatDialogContent,MatButtonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatTooltipModule, ReactiveFormsModule, NgIf ]
-  
+  imports: [MatDialogActions, MatDialogContent, MatButtonModule, MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, MatIconModule, MatTooltipModule, ReactiveFormsModule, NgIf]
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  errorMessage: string = ''; // Nueva propiedad para el mensaje de error
 
   constructor(
     private fb: FormBuilder,
@@ -37,9 +37,9 @@ export class LoginComponent implements OnInit {
   }
 
   CerrarLogin(): void {
-      this.router.navigate(['/home']);
-      this.dialogRef.close(); // Cerrar el diálogo
-    };
+    this.router.navigate(['/home']);
+    this.dialogRef.close(); // Cerrar el diálogo
+  }
 
   ngOnInit(): void {}
 
@@ -48,13 +48,14 @@ export class LoginComponent implements OnInit {
       const { usuario, contrasenia } = this.loginForm.value;
       this.personService.login(usuario, contrasenia).subscribe({
         next: (response) => {
-          localStorage.setItem('token', response.token); // Store the token
-          this.router.navigate(['/']);
-          this.dialogRef.close(); // Redirect to the home page
+          localStorage.setItem('token', response.token);
+          this.dialogRef.close(); // Guarda el token
+          this.router.navigate(['/home']);
+           // Redirigir a la página de inicio
         },
         error: (error) => {
-          console.error('Error during login:', error);
-          // Handle error (show a message, etc.)
+          // Asignar mensaje de error
+          this.errorMessage = 'Usuario o contraseña incorrectos. Intenta de nuevo.';
         }
       });
     }

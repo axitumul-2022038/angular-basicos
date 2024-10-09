@@ -7,11 +7,12 @@ import { LoginComponent } from './dbz/Login/login.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { AuthGuard } from './auth.guard';
+import {MatMenuModule} from '@angular/material/menu';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, MainPageComponent, NgIf, MatIconModule],
+  imports: [RouterOutlet, MainPageComponent, NgIf, MatIconModule, MatMenuModule],
   templateUrl: './app.component.html',
   styles: [],
 })
@@ -23,6 +24,10 @@ export class AppComponent {
   logout(): void {
     localStorage.removeItem('token');
     this.router.navigate(['/home']);
+  }
+
+  verpefil(): void{
+    this.router.navigate(['/perfil'])
   }
 
   isLoggedIn(): boolean {

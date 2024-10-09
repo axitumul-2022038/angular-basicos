@@ -11,7 +11,7 @@
     <input matInput type="text" placeholder="Usuario" [(ngModel)]="personaje.usuario" name="usuario" />
   </mat-form-field>
 
-  <mat-dialog-content appearance="fill" *ngIf="data.isEditMode">
+  <mat-dialog-content appearance="fill" *ngIf="data.isEditMode && isAdmin()" >
     <mat-label>Rol</mat-label>
     <mat-select [(ngModel)]="personaje.administrador" name="rol">
       <mat-option [value]="1">Administrador</mat-option>

@@ -10,10 +10,17 @@ import { NgFor, NgIf } from '@angular/common';
 import { Personaje } from '../interfaces/dbz.interface';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { PersonService } from '../../service/PersonService.component'; 
+import { PersonService } from '../../service/PersonService.component';
 import { DialogAnimationsExampleDialog } from './eliminar-personaje.component';
-import * as XLSX from 'xlsx'; 
+import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
+import XlsxPopulate from 'xlsx-populate';
+import autoTable from 'jspdf-autotable';
+import { catchError } from 'rxjs/operators'; // Para la función catchError
+import { of } from 'rxjs'; // Para el operador of
+import { HttpErrorResponse } from '@angular/common/http'; 
+
+
 
 @Component({
   selector: 'app-personajes',
@@ -84,17 +91,21 @@ export class PersonajesComponent implements AfterViewInit, OnChanges {
 
   isAdmin(): boolean {
     const token = localStorage.getItem('token');
-    
+
     if (!token) {
-        return false;
+      return false;
     }
     const decodedToken = JSON.parse(atob(token.split('.')[1]));
-    if(decodedToken.admin == '1'){
+    if (decodedToken.admin == '1') {
       return true;
-    }else{
+    } else {
       return false
     }
-}
+  }
+
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token'); // Returns true if token exists
+  }
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -113,63 +124,159 @@ export class PersonajesComponent implements AfterViewInit, OnChanges {
     this.personService.getPersons()
   }
 
+
   exportToExcel(): void {
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.personajes);
+    // Crear un nuevo arreglo para incluir la transformación del campo 'administrador'
+    const modifiedPersonajes = this.personajes.map(personaje => ({
+      id: personaje.id,
+      nombre: personaje.nombre,
+      usuario: personaje.usuario,
+      administrador: personaje.administrador  ? 'Sí' : 'No'  // Cambiar 1 a "Sí" y 0 a "No"
+    }));
+  
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(modifiedPersonajes);
     const workbook: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, 'Personajes');
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Usuarios');
     
     // Nombre del archivo
-    XLSX.writeFile(workbook, 'personajes.xlsx');
+    XLSX.writeFile(workbook, 'Usuarios.xlsx');
+  }
+  
+
+
+  exportarPDFPorId(id: number) {
+    const personaje = this.personajes.find(p => p.id === id);
+    const administrador = personaje?.administrador ? 'Si' : 'No'
+    if (!personaje) return;
+
+    this.personService.getImage64(id).subscribe(
+      (response) => {
+        const imgData = response.imagenUrl ? 'data:image/png;base64,' + response.imagenUrl : this.imgdefault;
+
+        const doc = new jsPDF();
+        doc.text(`ID: ${personaje.id}`, 10, 10);
+        doc.text(`Nombre: ${personaje.nombre}`, 10, 20);
+        doc.text(`Usuario: ${personaje.usuario}`, 10, 30);
+        doc.text(`Administrador: ${administrador}`, 10, 40);
+
+        console.log("Añadiendo imagen al PDF");
+
+        // Ajustar tamaño y posición de la imagen en el PDF
+        const imageWidth = 50;  // Ancho en mm
+        const imageHeight = 50; // Alto en mm
+        const xPosition = 150;   // Posición X en mm
+        const yPosition = 5;   // Posición Y en mm
+
+        // Usa la imagen recibida en base64
+        doc.addImage(imgData, 'PNG', xPosition, yPosition, imageWidth, imageHeight);
+        doc.save(`Usuario_${personaje.usuario}.pdf`);
+      },
+      (error) => {
+        console.error('Error al obtener la imagen:', error);
+        const imgData = this.imgdefault;
+
+        const doc = new jsPDF();
+        doc.text(`ID: ${personaje.id}`, 10, 10);
+        doc.text(`Nombre: ${personaje.nombre}`, 10, 20);
+        doc.text(`Usuario: ${personaje.usuario}`, 10, 30);
+
+        // Ajustar tamaño y posición de la imagen predeterminada
+        const imageWidth = 50;
+        const imageHeight = 50;
+        const xPosition = 10;
+        const yPosition = 40;
+
+        doc.addImage(imgData, 'PNG', xPosition, yPosition, imageWidth, imageHeight);
+        doc.save(`Usuario_${personaje.usuario}.pdf`);
+      }
+    );
   }
 
-  
+  cargarPersonajes() {
+    this.personService.getPersons().subscribe((data: any[]) => {
+      this.personajes = data; // Actualiza el estado con los usuarios más recientes
+    });
+  }
 
-  async generatePdf(userId: number) {
-    const personaje = this.personajes.find(p => p.id === userId);
-    if (!personaje) {
-        console.error('Usuario no encontrado');
-        return;
-    }
-
+  exportarTablaPDF() {
     const doc = new jsPDF();
-    let y = 10;
-
-    doc.text(`ID: ${personaje.id}`, 10, y);
-    doc.text(`Nombre: ${personaje.nombre}`, 10, y + 10);
-    doc.text(`Usuario: ${personaje.usuario}`, 10, y + 20);
-    if(personaje.administrador === true){
-      doc.text('Es Administrador',10, y + 30)
-    }else{
-      doc.text('No Es Administrador',10, y + 30)
-    }
-
-    if (personaje.imagenUrl) {
-        try {
-            // Inline blobToBase64 function
-            const blobToBase64 = (blobUrl: string): Promise<string> => {
-                return fetch(blobUrl)
-                    .then(response => response.blob())
-                    .then(blob => new Promise<string>((resolve, reject) => {
-                        const reader = new FileReader();
-                        reader.onloadend = () => resolve(reader.result as string);
-                        reader.onerror = error => reject(error);
-                        reader.readAsDataURL(blob);
-                    }));
-            };
-
-            const imgBase64 = await blobToBase64(personaje.imagenUrl);
-            const imgType = imgBase64.split(';')[0].split('/')[1]; // Extrae el tipo de imagen
-            doc.addImage(imgBase64, imgType, 10, y + 40, 50, 50);
-        } catch (error) {
-            console.error('Error al convertir la imagen:', error);
-            doc.text('Error al cargar la imagen', 10, y + 40);
-        }
-    } else {
-        doc.text('No hay imagen disponible', 10, y + 40);
-    }
-
-    doc.save(`${personaje.nombre}.pdf`);
-}
-
+    doc.text('Información de Usuarios', 20, 20);
+    doc.setFontSize(10);
   
+    const headers = ['ID', 'Nombre', 'Usuario', 'Administrador', 'Imagen'];
+    const rows: any[][] = [];
+  
+    // Ordenar los personajes por ID antes de procesar
+    const sortedPersonajes = this.personajes.sort((a, b) => a.id - b.id); // Ordenar por ID numéricamente
+  
+    const promises = sortedPersonajes.map((personaje: any) => {
+      return new Promise<void>((resolve) => {
+        const personajeId = personaje.id.toString();
+  
+        this.personService.getImage64(personaje.id).pipe(
+          catchError((error: HttpErrorResponse) => {
+            if (error.status === 404) {
+              console.warn(`Imagen no encontrada para el usuario ${personaje.nombre}, usando imagen predeterminada.`);
+              return of({ imagenUrl: null }); // Devuelve una respuesta vacía con imagen predeterminada
+            } else {
+              console.error('Error al obtener la imagen:', error);
+              return of({ imagenUrl: null }); // También usar imagen predeterminada para otros errores
+            }
+          })
+        ).subscribe(
+          (response: any) => {
+            const imgData = response.imagenUrl ? 'data:image/png;base64,' + response.imagenUrl : this.imgdefault;
+  
+            const row: any[] = [
+              personajeId,
+              personaje.nombre,
+              personaje.usuario,
+              personaje.administrador ? 'Si' : 'No',
+              imgData
+            ];
+  
+            rows.push(row);
+            resolve();
+          }
+        );
+      });
+    });
+  
+    Promise.all(promises).then(() => {
+      autoTable(doc, {
+        head: [headers],
+        body: rows.map(row => row.slice(0, 4)),
+        startY: 30,
+        didDrawCell: (data) => {
+          if (data.column.index === 4 && data.cell.section === 'body') {
+            const imgData = rows[data.row.index][4];
+            const img = new Image();
+            img.src = imgData;
+  
+            const imgWidth = 15;
+            const imgHeight = 15;
+            const cellHeight = imgHeight + 4;
+  
+            data.cell.height = cellHeight;
+  
+            doc.addImage(img, 'PNG', data.cell.x + 2, data.cell.y + 2, imgWidth, imgHeight);
+          }
+        },
+        didParseCell: (data) => {
+          if (data.row.section === 'body') {
+            data.cell.styles.minCellHeight = 20;
+          }
+        },
+        margin: { top: 30 },
+        pageBreak: 'auto',
+        showHead: 'everyPage',
+      });
+  
+      doc.save('usuarios.pdf');
+    });
+  }
+  
+  
+  
+
 }
