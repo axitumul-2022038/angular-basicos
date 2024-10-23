@@ -1,0 +1,38 @@
+<div class="solicitudes-container">
+  <h2>Mis Solicitudes</h2>
+  <button (click)="abrirModalSolicitud()">Hacer Otra Consulta:</button>
+  <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
+    <h3>{{ solicitud.asunto }}</h3>
+    <p>{{ solicitud.descripcion }}</p>
+    <p><strong>Estado:</strong> {{ solicitud.estadoSolicitudAdmin }}</p>
+
+    <div *ngIf="solicitud.respuestaAdmin">
+      <h4>Respuesta del Administrador:</h4>
+      <p>{{ solicitud.respuestaAdmin }}</p>
+      <a *ngIf="solicitud.archivoAdmin" class="btn" (click)="abrirArchivo(solicitud.idRespuestaAdmin)">Ver Archivo Adjunto</a>
+      <hr>
+    </div>
+
+    <div *ngIf="solicitud.respuestaUsuario">
+      <h4>Tu Respuesta:</h4>
+      <p>{{ solicitud.respuestaUsuario }}</p>
+      <a *ngIf="solicitud.archivoUsuario" class="btn" (click)="abrirArchivo(solicitud.idRespuestaUsuario)">Ver Archivo Adjunto</a>
+      <hr>
+    </div>
+
+    <div *ngIf="solicitud.estadoSolicitudUser === 'pendiente' && solicitud.estadoSolicitudAdmin !== 'pendiente'">
+      <h4>Responder:</h4>
+      <textarea [(ngModel)]="respuestaUsuario" placeholder="Escribe tu respuesta"></textarea>
+      <input type="file" (change)="onArchivoSeleccionadoUsuario($event)" />
+      <button (click)="enviarRespuesta(solicitud.id)">Enviar Respuesta</button>
+    </div>
+
+    <div *ngIf="solicitud.estadoSolicitudAdmin !== 'pendiente'">
+      <p><strong>Esta solicitud ya ha sido respondida por el administrador.</strong></p>
+      <p><strong>Si necesita mas informacion por favor hacer otra consulta.</strong></p>
+    </div>
+  </div>
+
+  <div *ngIf="mensaje" class="mensaje">{{ mensaje }}</div>
+</div>
+  

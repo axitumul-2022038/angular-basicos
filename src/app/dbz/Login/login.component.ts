@@ -51,6 +51,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('token', response.token);
           this.dialogRef.close(); // Guarda el token
           this.router.navigate(['/home']);
+          location.reload();
            // Redirigir a la página de inicio
         },
         error: (error) => {

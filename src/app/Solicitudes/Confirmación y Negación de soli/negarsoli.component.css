@@ -1,0 +1,73 @@
+/* Estilos específicos para el diálogo de rechazo */
+.rechazo-dialog-title {
+  font-weight: bold;
+  font-size: 22px; /* Un poco más pequeño */
+  color: #333; /* Color más neutral */
+  text-align: center;
+  margin-bottom: 15px; /* Menos margen */
+}
+
+/* Centrado del contenido del diálogo */
+.rechazo-dialog-content {
+  text-align: center;
+  font-size: 16px; /* Un poco más pequeño */
+  color: #555; /* Color más suave */
+  margin-bottom: 15px; /* Menos margen */
+}
+
+/* Estilo del campo de texto */
+.full-width {
+  width: 100%;
+}
+
+/* Estilos para los botones en el diálogo */
+.rechazo-dialog-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Menos espacio entre botones */
+  margin-top: 10px;
+}
+
+/* Estilo para los botones */
+.rechazo-dialog-button {
+  padding: 8px 16px; /* Tamaño más pequeño */
+  font-size: 14px; /* Tamaño más pequeño */
+  border-radius: 4px; /* Esquinas menos redondeadas */
+  cursor: pointer;
+}
+
+/* Estilo para el botón de rechazar */
+.rechazo-dialog-button[mat-button]:last-child {
+  background-color: #e57373; /* Color más suave */
+  color: white;
+  transition: background-color 0.2s ease; /* Transición más rápida */
+}
+
+.rechazo-dialog-button[mat-button]:last-child:hover {
+  background-color: #ef5350; /* Color hover más suave */
+}
+
+/* Estilo para el botón de cancelar */
+.rechazo-dialog-button[mat-button]:first-child {
+  background-color: #81c784; /* Color más suave */
+  color: white;
+  transition: background-color 0.2s ease; /* Transición más rápida */
+}
+
+.rechazo-dialog-button[mat-button]:first-child:hover {
+  background-color: #66bb6a; /* Color hover más suave */
+}
+
+/* Ajustar el ancho del diálogo */
+mat-dialog-container {
+  padding: 15px; /* Menos padding */
+  border-radius: 8px;
+  box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.2); /* Sombra más sutil */
+  max-width: 400px;
+  width: 100%;
+}
+
+/* Estilo del fondo cuando el diálogo está abierto */
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.3); /* Fondo más suave */
+}

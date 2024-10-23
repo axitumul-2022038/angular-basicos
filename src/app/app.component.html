@@ -3,7 +3,15 @@
     <li class="li"><a href="/dbz">Ver Personajes</a></li>
     <li class="li"><a href="#">Contact</a></li>
     <li class="lo" *ngIf="isLoggedIn()"> 
-        <a [matMenuTriggerFor]="menu"><mat-icon>person</mat-icon>Menu</a>
+      <img class="profile-img-v" 
+           *ngIf="imagenUrl" 
+           [src]="imagenUrl" 
+           [matMenuTriggerFor]="menu"
+            />
+      <img class="profile-img-v" 
+           *ngIf="!imagenUrl" 
+           [src]="defaultImageUrl" 
+           [matMenuTriggerFor]="menu" />
     </li>
     <li class="lo" *ngIf="isLogoutIn()" >
         
@@ -14,8 +22,13 @@
 
 
   <mat-menu #menu="matMenu">
-    <button class="button"  (click)="logout()" mat-menu-item>Logout</button>
-    <button class="button"  (click)="verpefil()" mat-menu-item>Ver Tu Perfil</button>
+    <h2 style="text-align: center;">{{personaje?.nombre}}</h2>
+    <button   (click)="logout()" mat-menu-item>Logout</button>
+    <button   (click)="verpefil()" mat-menu-item>Ver Tu Perfil</button>
+    <button *ngIf="esAdmin" (click)="solicitudesAdm()" mat-menu-item>Ver Solicitudes ADMIN</button>
+    <button *ngIf="esAdmin == false" (click)="openSolicitudModal()" mat-menu-item>Ver Mis Solicitudes De Admin</button>
+    <button *ngIf="esAdmin" (click)="otrasSolis()" mat-menu-item>Ver Otras Solicitudes</button>
+    <button *ngIf="esAdmin == false" (click)="otrasSolisUsers()" mat-menu-item>Ver Mis Otras Solicitudes</button>
   </mat-menu>
   
   <router-outlet></router-outlet>

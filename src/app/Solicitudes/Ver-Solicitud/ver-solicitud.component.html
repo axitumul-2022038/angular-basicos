@@ -1,0 +1,12 @@
+<div class="solicitud-container">
+  <h2>Mis Solicitudes Para Ser ADMIN</h2>
+  <h5>Puedes solicitarlo en tu perfil</h5>
+  <mat-card *ngFor="let solicitud of solicitudes" class="solicitud-card">
+    <mat-card-title>{{ solicitud.nombreUsuario || 'Usuario Desconocido' }}</mat-card-title>
+    <mat-card-content>
+      <p>Estado: <strong>{{ solicitud.estadoSolicitud }}</strong></p>
+      <p>Fecha de Solicitud: {{ solicitud.fechaSolicitud | date:'short }}</p>
+      <p>Fecha de Respuesta: {{ solicitud.fechaSolicitudDia | date:'mediumDate' }}</p>
+    </mat-card-content>
+  </mat-card>
+</div>

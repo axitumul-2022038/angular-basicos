@@ -1,0 +1,71 @@
+/* Estilos personalizados para el modal de confirmación */
+.confirm-modal-content {
+  text-align: center;
+  font-size: 18px;
+  color: #555; /* Cambiado a un color más suave */
+  margin-bottom: 20px;
+}
+
+.confirm-modal-title {
+  font-weight: 600; /* Un peso un poco más ligero */
+  font-size: 22px;
+  color: #2c3e50; /* Un tono gris-azul más sutil */
+  text-align: center;
+}
+
+/* Estilos para los botones en el modal */
+.confirm-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 15px; /* Reducido el espacio entre los botones */
+  margin-top: 20px;
+}
+
+.confirm-modal-cancel, .confirm-modal-accept {
+  padding: 8px 16px; /* Botones más pequeños */
+  font-size: 15px; /* Fuente un poco más pequeña */
+  border-radius: 8px; /* Borde redondeado */
+  text-transform: none; /* No usar mayúsculas */
+  font-weight: 500; /* Un peso de texto medio */
+  cursor: pointer;
+  border: 1px solid transparent; /* Sin bordes visibles inicialmente */
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Estilos para el botón de aceptar */
+.confirm-modal-accept {
+  background-color: #ecf0f1; /* Color gris claro */
+  color: #2c3e50; /* Color gris oscuro */
+  border-color: #bdc3c7; /* Borde gris claro */
+}
+
+.confirm-modal-accept:hover {
+  background-color: #bdc3c7; /* Oscurecer un poco en hover */
+  border-color: #95a5a6; /* Borde más oscuro en hover */
+}
+
+/* Estilos para el botón de cancelar */
+.confirm-modal-cancel {
+  background-color: #f8f9fa; /* Color gris claro */
+  color: #7f8c8d; /* Color gris suave */
+  border-color: #e0e0e0; /* Borde gris claro */
+}
+
+.confirm-modal-cancel:hover {
+  background-color: #e0e0e0; /* Color más oscuro en hover */
+  border-color: #bdc3c7; /* Borde gris suave en hover */
+}
+
+/* Ajuste del ancho y estilo del modal */
+mat-dialog-container.confirm-modal-container {
+  padding: 20px;
+  border-radius: 12px; /* Borde más redondeado */
+  box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+  max-width: 380px; /* Ajuste de ancho */
+  width: 100%;
+}
+
+/* Estilo del fondo cuando el modal está abierto */
+.cdk-overlay-backdrop {
+  background-color: rgba(0, 0, 0, 0.4); /* Fondo más suave */
+}

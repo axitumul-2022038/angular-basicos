@@ -1,0 +1,42 @@
+/* src/app/components/solicitudes/solicitudes.component.css */
+.solicitudes-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .solicitud-card {
+    margin: 10px;
+    width: 300px;
+  }
+
+  .button-container {
+    margin: 20px 0; /* Espacio alrededor de los botones */
+    display: flex; /* Utiliza flexbox para alinear los botones */
+    gap: 10px; /* Espacio entre los botones */
+    justify-content: center; /* Centra los botones horizontalmente */
+  }
+  
+  .button-soli {
+    background-color: #6200ea; /* Color de fondo del botón */
+    color: white; /* Color del texto */
+    border: none; /* Sin borde */
+    border-radius: 5px; /* Bordes redondeados */
+    padding: 10px 20px; /* Espaciado interno */
+    font-size: 16px; /* Tamaño de la fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    transition: background-color 0.3s; /* Efecto de transición suave */
+  }
+  
+  .button-soli:hover {
+    background-color: #3700b3; /* Color de fondo al pasar el cursor */
+  }
+
+  .h2{
+  text-align: center; /* Centra el texto horizontalmente */
+  margin: 20px 0; /* Añade margen arriba y abajo */
+  font-size: 50px; /* Ajusta el tamaño de la fuente según sea necesario */
+  color: #333;
+  }
+  
+  

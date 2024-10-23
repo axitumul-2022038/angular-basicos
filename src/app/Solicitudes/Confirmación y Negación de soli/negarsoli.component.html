@@ -1,0 +1,13 @@
+<h1 mat-dialog-title class="rechazo-dialog-title">Confirmar Rechazo</h1>
+<div mat-dialog-content class="rechazo-dialog-content">
+  <p>¿Estás seguro de rechazar esta solicitud?</p>
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Motivo del rechazo</mat-label>
+    <p>¿Porqué? escribe un motivo</p>
+    <mat-dialog-content><textarea matInput [(ngModel)]="motivoRechazo" rows="4" required></textarea></mat-dialog-content>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions class="rechazo-dialog-actions">
+  <button mat-button class="rechazo-dialog-button" (click)="onNoClick()">Cancelar</button>
+  <button mat-button class="rechazo-dialog-button" (click)="onYesClick()" cdkFocusInitial>Rechazar</button>
+</div>

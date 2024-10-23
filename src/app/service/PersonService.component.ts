@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, Observable, of, tap } from 'rxjs';
 import * as XLSX from 'xlsx';
 import { map } from 'rxjs/operators';
@@ -10,6 +10,7 @@ import { Personaje } from '../dbz/interfaces/dbz.interface';
 })
 export class PersonService {
   private apiUrl = 'http://localhost:3000/api/persons';
+  private apiUrlSoli = 'http://localhost:3000/api/solicitudes'
 
   constructor(private http: HttpClient) { }
 
@@ -108,7 +109,92 @@ getAllImagesInBase64(): Observable<any[]> {
   );
 }
 
+updateAdministrador(id: number): Observable<any> {
+  const url = `${this.apiUrl}/admin/${id}`;
+
+  return this.http.put<any>(url, {});
+}
+
+// -------------------------- Solicitudes --------------------------------
+
+//ver solicitudes
+
+getSolicitudes(): Observable<any[]> {
+  return this.http.get<any[]>(this.apiUrlSoli);
+}
+
+getSolicitudesPendientes(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrlSoli}/pendientes`);
+}
+
+getSolicitudesAceptadas(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrlSoli}/aceptadas`);
+}
+
+getSolicitudesRechazadas(): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrlSoli}/rechazadas`);
+}
+
+getSolicitudUnUsuario(idusuario: number): Observable<any[]> {
+  return this.http.get<any[]>(`${this.apiUrlSoli}/obtenerusuairo/${idusuario}`);
+}
 
 
+mandarSolicitud(id: number): Observable<any> {
+  const url = `${this.apiUrlSoli}/${id}`;
+  const body = { solicitudAdmin: true ,estadoSolicitud: 'pendiente' };  // Opcional, si deseas enviar el estado en el cuerpo
+
+  return this.http.post<any>(url, body);
 
 }
+
+aceptarSolicitud(id: number, idResponsable: number): Observable<any> {
+  const url = `${this.apiUrlSoli}/${id}`;
+  const body = {
+    estadoSolicitud: 'aceptado',
+    idUsuarioResponsable: idResponsable
+  };  // Enviamos el estado y el responsable
+
+  return this.http.put<any>(url, body);
+}
+
+rechazarSolicitud(id: number): Observable<any> {
+  const url = `http://localhost:3000/api/rechazosolicitudes/${id}`;
+  const body = { estadoSolicitud: 'rechazado' };  // Enviamos solo el estado
+
+  return this.http.put<any>(url, body);
+}
+
+registrarRechazo(idSolicitud: number, motivoRechazo: string): Observable<any> {
+  const body = { idSolicitud, motivoRechazo };
+  return this.http.post<any>('http://localhost:3000/api/rechazosolicitudes', body);
+}
+
+// ----------------------------------------------------- Otas solicitudes ------------------------------------------------------
+
+crearSolicitud(idUsuario: number, asunto: string, descripcion: string): Observable<any> {
+  const url = `${this.apiUrlSoli}/otras/${idUsuario}`;
+  const body = { asunto, descripcion };
+
+  return this.http.post(url, body);
+}
+
+responderSolicitud(idSolicitud: number, formData: FormData): Observable<any> {
+  return this.http.post(`${this.apiUrlSoli}/respuestas/admin/${idSolicitud}`, formData, {
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('token')}`
+    }
+  });
+}
+
+responderSolicitudUsuario(idSolicitud: number, formData: FormData): Observable<any> {
+  const token = localStorage.getItem('token');
+  const headers = {
+    Authorization: `Bearer ${token}`
+  };
+
+  return this.http.post(`${this.apiUrlSoli}/respuestas/usuario/${idSolicitud}`, formData, { headers });
+}
+}
+
+

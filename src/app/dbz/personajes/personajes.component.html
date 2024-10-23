@@ -48,12 +48,12 @@
   <input matInput (keyup)="applyFilter($event)" placeholder="Filter by id, nombre, usuario, contraseña">
 </mat-form-field>
 
-<button *ngIf="isAdmin()" (click)="onAgregar()" class="button" matTooltip="Agrega un nuevo personaje">
+<button *ngIf="esAdmin" (click)="onAgregar()" class="button" matTooltip="Agrega un nuevo personaje">
   <mat-icon>person_add</mat-icon> Add Character
 </button>
-<button *ngIf="isAdmin()" (click)="exportToExcel()" class="button"
+<button *ngIf="esAdmin" (click)="exportToExcel()" class="button"
   matTooltip="Reporte de Usuarios en Excel"><mat-icon>insert_drive_file</mat-icon>Report Excel</button>
-  <button *ngIf="isAdmin()" (click)="exportarTablaPDF()" class="button"
+  <button *ngIf="esAdmin" (click)="exportarTablaPDF()" class="button"
   matTooltip="Reporte de Usuarios en PDF"><mat-icon>picture_as_pdf</mat-icon>Report PDF</button>
 <div class="mat-elevation-z8">
   
@@ -142,7 +142,7 @@
     <ng-container matColumnDef="acciones">
       <th mat-header-cell *matHeaderCellDef> Acciones </th>
       <td mat-cell *matCellDef="let row">
-        <div *ngIf="isAdmin(); else noPermission">
+        <div *ngIf="esAdmin; else noPermission">
           <button (click)="onEditar(row.id)" class="button" matTooltip="Actualizar a este usuario">
             <mat-icon>update</mat-icon>
           </button>

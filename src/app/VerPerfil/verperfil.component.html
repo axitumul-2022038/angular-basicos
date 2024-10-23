@@ -20,6 +20,10 @@
     <button (click)="openEditDialog(true, personaje.id)" class="button" matTooltip="Actualizar a este usuario">
         <mat-icon>update</mat-icon>
       </button>
+    <button *ngIf="personaje.administrador == false" (click)="openMandarSoliDialog(personaje.id)" class="button" matTooltip="Unete! a nosotros manda tu solicitud dando click aquí">
+        <mat-icon>person_pin</mat-icon>Quieres ser Admin?
+      </button>
+      <button *ngIf="personaje.administrador == false" class="button" mat-raised-button color="primary" (click)="abrirModalSolicitud()" matTooltip="Enviar Solicitud para analisis de los administradores">Agregar Solicitud</button>
   </div>
   <div *ngIf="!personaje">
     <p>Cargando datos del perfil...</p>

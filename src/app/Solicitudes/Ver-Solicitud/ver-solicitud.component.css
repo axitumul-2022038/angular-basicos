@@ -1,0 +1,21 @@
+.solicitud-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.solicitud-card {
+  width: 100%;
+  max-width: 400px;
+  margin: 10px 0;
+}
+
+mat-card-title {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+mat-card-content p {
+  margin: 5px 0;
+}

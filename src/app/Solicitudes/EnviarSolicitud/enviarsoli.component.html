@@ -1,0 +1,8 @@
+<h1 mat-dialog-title class="confirm-modal-title">Confirmar</h1>
+<div mat-dialog-content class="confirm-modal-content">
+  <p>¿Estás seguro de mandar esta solicitud?</p>
+</div>
+<div mat-dialog-actions class="confirm-modal-actions">
+  <button mat-button (click)="onNoClick()" class="confirm-modal-cancel">Cancelar</button>
+  <button mat-button (click)="onYesClick()" class="confirm-modal-accept" cdkFocusInitial>Aceptar</button>
+</div>

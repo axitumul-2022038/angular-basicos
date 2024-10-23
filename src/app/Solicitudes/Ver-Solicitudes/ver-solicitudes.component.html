@@ -1,0 +1,60 @@
+<div>
+  <h2 class="h2">Solicitudes</h2>
+
+  <div class="button-container">
+    <!-- Botones para navegar entre las diferentes vistas de solicitudes -->
+    <button *ngIf="viewState === 'pendientes'" class="button-soli" (click)="loadSolicitudesAceptadas()">Ver Aceptadas</button>
+    <button *ngIf="viewState === 'pendientes'" class="button-soli" (click)="loadSolicitudesRechazadas()">Ver Rechazadas</button>
+    <button *ngIf="viewState === 'pendientes'" class="button-soli" (click)="loadSolicitudes()">Ver Todas</button>
+
+    <button *ngIf="viewState === 'aceptadas'" class="button-soli" (click)="recarga()">Ver Pendientes</button>
+    <button *ngIf="viewState === 'aceptadas'" class="button-soli" (click)="loadSolicitudesRechazadas()">Ver Rechazadas</button>
+    <button *ngIf="viewState === 'aceptadas'" class="button-soli" (click)="loadSolicitudes()">Ver Todas</button>
+
+    <button *ngIf="viewState === 'rechazadas'" class="button-soli" (click)="recarga()">Ver Pendientes</button>
+    <button *ngIf="viewState === 'rechazadas'" class="button-soli" (click)="loadSolicitudesAceptadas()">Ver Aceptadas</button>
+    <button *ngIf="viewState === 'rechazadas'" class="button-soli" (click)="loadSolicitudes()">Ver Todas</button>
+
+    <button *ngIf="viewState === 'todas'" class="button-soli" (click)="recarga()">Ver Pendientes</button>
+    <button *ngIf="viewState === 'todas'" class="button-soli" (click)="loadSolicitudesAceptadas()">Ver Aceptadas</button>
+    <button *ngIf="viewState === 'todas'" class="button-soli" (click)="loadSolicitudesRechazadas()">Ver Rechazadas</button>
+  </div>
+
+  <div class="solicitudes-container">
+    <!-- Mensaje de "No hay solicitudes" para cada estado -->
+    <div *ngIf="viewState === 'pendientes' && solicitudes.length === 0" class="no-solicitudes">
+      <p>No hay solicitudes pendientes en este momento.</p>
+    </div>
+    <div *ngIf="viewState === 'aceptadas' && solicitudes.length === 0" class="no-solicitudes">
+      <p>No hay solicitudes aceptadas en este momento.</p>
+    </div>
+    <div *ngIf="viewState === 'rechazadas' && solicitudes.length === 0" class="no-solicitudes">
+      <p>No hay solicitudes rechazadas en este momento.</p>
+    </div>
+    <div *ngIf="viewState === 'todas' && solicitudes.length === 0" class="no-solicitudes">
+      <p>No hay solicitudes en este momento.</p>
+    </div>
+
+    <!-- Listado de solicitudes -->
+    <div *ngFor="let solicitud of solicitudes" class="solicitud-card">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Solicitud #{{ solicitud.id }}</mat-card-title>
+          <mat-card-subtitle>
+            Usuario: {{ solicitud.nombreUsuario }} (ID: {{ solicitud.idusuario }})
+          </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+          <p>Solicita ser administrador: <strong>{{ solicitud.solicitudAdmin ? 'Sí' : 'No' }}</strong></p>
+          <p>Estado: {{ solicitud.estadoSolicitud }}</p>
+          <p>Fecha de solicitud: {{ solicitud.fechaSolicitud | date: 'short' }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <!-- Botones para aprobar o rechazar solicitudes -->
+          <button *ngIf="solicitud.estadoSolicitud === 'pendiente'" mat-button color="primary" (click)="openConfirmDialog(solicitud.id, solicitud.idusuario)">Aprobar</button>
+          <button *ngIf="solicitud.estadoSolicitud === 'pendiente'" mat-button color="warn" (click)="openRechazoDialog(solicitud.id)">Rechazar</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,18 @@
+<h2>Agregar nueva solicitud</h2>
+
+<form (ngSubmit)="onSubmit()">
+  <mat-form-field appearance="fill">
+    <mat-label>Asunto</mat-label>
+    <input matInput [(ngModel)]="asunto" name="asunto" placeholder="Escribe el asunto" required>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Descripción</mat-label>
+    <textarea matInput [(ngModel)]="descripcion" name="descripcion" placeholder="Escribe la descripción" required></textarea>
+  </mat-form-field>
+
+  <div class="actions">
+    <button mat-raised-button color="primary" type="submit">Enviar</button>
+    <button mat-button color="warn" type="button" (click)="onCancel()">Cancelar</button>
+  </div>
+</form>
